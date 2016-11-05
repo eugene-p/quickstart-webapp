@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Super Cool App</title>
+    <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <div class="container">
@@ -16,6 +16,8 @@
         </div>
       </div>
     </div>
+    <% if (htmlWebpackPlugin.options.env === "dev") { %>
     <script src="//localhost:35729/livereload.js"></script>
+    <%}%>
   </body>
 </html>

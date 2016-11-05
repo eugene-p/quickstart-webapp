@@ -1,5 +1,4 @@
 var wpConfig = require('./webpack.config.js');
-wpConfig.watch = true;
 module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
@@ -21,7 +20,7 @@ module.exports = function(grunt) {
           'app/**/*.css'
         ],
         tasks: [
-          'webpack'
+          'webpack:dev'
         ]
       },
       express: {
@@ -42,7 +41,9 @@ module.exports = function(grunt) {
       }
     },
     webpack: {
-      main: wpConfig
+      "options": wpConfig.base,
+      "dev": wpConfig.dev,
+      "prod": wpConfig.prod
     },
     express: {
       options: {},
@@ -61,5 +62,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-webpack');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', ['webpack', 'express', 'open',  'watch']);
+  grunt.registerTask('default', ['webpack:dev', 'express', 'open',  'watch']);
+  grunt.registerTask('dev', ['default']);
+  grunt.registerTask('build', ['webpack:prod']);
 };
