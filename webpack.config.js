@@ -2,9 +2,10 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var purify = require("purifycss-webpack-plugin");
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 var webpackConfig = {
-  env: 'dev',
   contentBase: './app',
   entry: './app/index.js',
   output: {
@@ -30,7 +31,7 @@ var webpackConfig = {
       ]
     }, {
       test: /\.html$/,
-      loader: "ejs-loader"
+      loader: "ejs-compiled?htmlmin"
     }]
   }
 };
@@ -44,14 +45,20 @@ module.exports =  {
         title: "Super Cool App",
         env: "dev",
         template: "./app/views/index.html",
-        favicon: "./app/assets/images/icons/favicon-512x512.png",
         inject: true
       }),
-      new ExtractTextPlugin("[name]-[hash].css")
+      new ExtractTextPlugin("[name]-[hash].css"),
+      new purify({
+        basePath: __dirname,
+        paths: [
+          "app/views/**/*.html"
+        ]
+      })
     ]
   },
   prod: {
     plugins: [
+      new FaviconsWebpackPlugin('./app/assets/images/icons/favicon.svg'),
       new CleanWebpackPlugin(['build']),
       new HtmlWebpackPlugin({
         title: "Super Cool App",
@@ -60,7 +67,13 @@ module.exports =  {
         favicon: "./app/assets/images/icons/favicon-512x512.png",
         inject: true
       }),
-      new ExtractTextPlugin("[name]-[hash].css")
+      new ExtractTextPlugin("[name]-[hash].css"),
+      new purify({
+        basePath: __dirname,
+        paths: [
+          "app/views/**/*.html"
+        ]
+      })
     ]
   }
 };
