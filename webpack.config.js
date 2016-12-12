@@ -10,7 +10,7 @@ var webpackConfig = {
   entry: './app/index.js',
   output: {
     path: './build',
-    filename: '/js/[hash]_bundle.js'
+    filename: '/js/bundle.js?[hash]'
   },
   module: {
     loaders: [{
@@ -47,7 +47,7 @@ module.exports =  {
         template: "./app/views/index.html",
         inject: true
       }),
-      new ExtractTextPlugin("[name]-[hash].css"),
+      new ExtractTextPlugin("[name].css?[hash]"),
       new purify({
         basePath: __dirname,
         paths: [
@@ -67,7 +67,7 @@ module.exports =  {
         favicon: "./app/assets/images/icons/favicon-512x512.png",
         inject: true
       }),
-      new ExtractTextPlugin("[name]-[hash].css"),
+      new ExtractTextPlugin("[name].css?[hash]"),
       new purify({
         basePath: __dirname,
         paths: [
